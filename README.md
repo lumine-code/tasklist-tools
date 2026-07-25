@@ -1,6 +1,8 @@
 # tasklist-tools
 
-Task state management and navigation commands for tasklist files. Requires a grammar package such as [language-tasklist](https://github.com/lumine-code/language-tasklist).
+Task state management and navigation commands for tasklist files.
+
+Requires a grammar package such as [language-tasklist](https://github.com/lumine-code/language-tasklist).
 
 ## Features
 

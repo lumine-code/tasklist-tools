@@ -1,7 +1,7 @@
 {
   "name": "tasklist-tools",
   "author": "lumine-code",
-  "description": "Task state management and navigation commands for tasklist files",
+  "description": "Task state management and navigation commands for tasklist files.",
   "repository": "https://github.com/lumine-code/tasklist-tools",
   "bugs": {
     "url": "https://github.com/lumine-code/tasklist-tools/issues"
