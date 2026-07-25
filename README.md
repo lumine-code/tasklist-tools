@@ -1,21 +1,19 @@
 # tasklist-tools
 
-Task state management and navigation commands for tasklist files. Requires a grammar package such as [language-tasklist](https://github.com/asiloisad/pulsar-language-tasklist).
-
-![status-bar](https://github.com/asiloisad/pulsar-tasklist-tools/blob/master/assets/status-bar.png?raw=true)
+Task state management and navigation commands for tasklist files. Requires a grammar package such as [language-tasklist](https://github.com/lumine-code/language-tasklist).
 
 ## Features
 
-- **Task toggling**: Cycle through task states with keyboard or middle-click.
-- **Quick state commands**: Set tasks directly to high, todo, done, fail, or info.
-- **Header navigation**: Jump between headers or move items to headers.
-- **Status bar counter**: Shows task counts by type with click-to-navigate.
-- **Markdown translation**: Convert markdown checkboxes to tasklist format.
-- **Navigation panel**: Outline support via [navigation-panel](https://github.com/asiloisad/pulsar-navigation-panel).
+- **Task toggling**: cycle through task states with keyboard or middle-click.
+- **Quick state commands**: set tasks directly to high, todo, done, fail, or info.
+- **Header navigation**: jump between headers or move items to headers.
+- **Status bar counter**: shows task counts by type with click-to-navigate.
+- **Markdown translation**: convert markdown checkboxes to tasklist format.
+- **Navigation panel**: outline support via [navigation-panel](https://github.com/lumine-code/navigation-panel).
 
 ## Installation
 
-To install `tasklist-tools` search for [tasklist-tools](https://web.pulsar-edit.dev/packages/tasklist-tools) in the Install pane of the Pulsar settings or run `ppm install tasklist-tools`. Alternatively, you can run `ppm install asiloisad/pulsar-tasklist-tools` to install a package directly from the GitHub repository.
+To install `tasklist-tools` search for _tasklist-tools_ in the Install pane of the Lumine settings or run `lumine --install lumine-code/tasklist-tools`.
 
 ## Commands
 
@@ -39,6 +37,25 @@ Commands available in `atom-text-editor[data-grammar~="tasklist"]:not([mini])`:
 - `tasklist-tools:move-to-next-header`: set cursor position equal to next header,
 - `tasklist-tools:move-to-previous-header`: set cursor position equal to previous header,
 - `tasklist-tools:move-to-last-header`: set cursor position equal to last header.
+
+## Customization
+
+The status-bar counter can be restyled from your `styles.less`, e.g.:
+
+```less
+.tasklist-status {
+  #done-counter {
+    color: var(--text-color-success);
+  }
+  #fail-counter {
+    color: var(--text-color-error);
+  }
+}
+```
+
+## Services
+
+- **status-bar** (`^1.0.0`): consumed to show the task summary counter in the status bar.
 
 ## Contributing
 

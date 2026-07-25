@@ -1,17 +1,27 @@
 {
   "name": "tasklist-tools",
+  "author": "lumine-code",
   "description": "Task state management and navigation commands for tasklist files",
-  "repository": "https://github.com/asiloisad/pulsar-tasklist-tools",
+  "repository": "https://github.com/lumine-code/tasklist-tools",
+  "bugs": {
+    "url": "https://github.com/lumine-code/tasklist-tools/issues"
+  },
   "keywords": [
     "tasklist",
     "tools"
   ],
-  "version": "1.3.0",
+  "version": "2.0.0",
   "license": "MIT",
   "engines": {
     "atom": ">=1.100.0 <2.0.0"
   },
   "main": "./lib/main",
+  "scripts": {
+    "test": "cd ../lumine && npm run test:only -- ../tasklist-tools/spec",
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
   "activationCommands": {
     "atom-text-editor": [
       "tasklist-tools:toggle-tick",
@@ -46,18 +56,24 @@
   },
   "configSchema": {
     "mouseToggle": {
-      "order": 1,
       "title": "Mouse toggler",
       "description": "Middle-click to toggle the state of the task.",
       "type": "boolean",
       "default": true
     },
     "statusBar": {
-      "order": 2,
       "title": "Status bar icons",
       "description": "Show task summary in the status bar.",
       "type": "boolean",
       "default": true
     }
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.8.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-n": "^18.2.2",
+    "globals": "^17.7.0",
+    "prettier": "^3.9.6"
   }
 }
