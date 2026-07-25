@@ -7,8 +7,11 @@
     "url": "https://github.com/lumine-code/tasklist-tools/issues"
   },
   "keywords": [
-    "tasklist",
-    "tools"
+    "todo",
+    "checkbox",
+    "task-management",
+    "toggle",
+    "markdown"
   ],
   "version": "1.0.0",
   "license": "MIT",
