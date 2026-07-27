@@ -57,7 +57,7 @@ The status-bar counter can be restyled from your `styles.less`, e.g.:
 
 ## Services
 
-- **[status-bar](https://lumine-code.github.io/docs.html#services/status-bar)** (`^1.0.0`): consumed to show the task summary counter in the status bar.
+- **status-bar** (`^1.0.0`): consumed to show the task summary counter in the status bar.
 
 ## Contributing
 
