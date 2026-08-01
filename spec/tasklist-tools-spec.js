@@ -45,6 +45,63 @@ describe("tasklist-tools", () => {
       editor.setCursorBufferPosition([0, 3]);
       atom.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
       expect(editor.lineTextForBufferRow(0)).toBe("  ☐ task");
+      expect(editor.getSelectedText()).toBe("");
+      expect(editor.getCursorBufferPosition().toArray()).toEqual([0, 5]);
+    });
+
+    it("leaves an empty selection after inserting a tick", () => {
+      editor.setText("task");
+      editor.setCursorBufferPosition([0, 2]);
+      atom.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
+      expect(editor.getSelectedText()).toBe("");
+      expect(editor.getCursorBufferPosition().toArray()).toEqual([0, 4]);
+    });
+
+    it("inserts a tick on an empty final line without selecting it", () => {
+      editor.setText("task\n");
+      editor.setCursorBufferPosition([1, 0]);
+      atom.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
+      expect(editor.getText()).toBe("task\n☐ ");
+      expect(editor.getSelectedText()).toBe("");
+      expect(editor.getCursorBufferPosition().toArray()).toEqual([1, 2]);
+    });
+
+    it("inserts a tick into an empty file without selecting it", () => {
+      editor.setText("");
+      editor.setCursorBufferPosition([0, 0]);
+      atom.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
+      expect(editor.getText()).toBe("☐ ");
+      expect(editor.getSelectedText()).toBe("");
+      expect(editor.getCursorBufferPosition().toArray()).toEqual([0, 2]);
+    });
+
+    it("keeps every cursor empty when inserting ticks at multiple rows including EOF", () => {
+      editor.setText("one\ntwo\n");
+      editor.setCursorBufferPosition([0, 1]);
+      editor.addCursorAtBufferPosition([1, 1]);
+      editor.addCursorAtBufferPosition([2, 0]);
+      atom.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
+      expect(editor.getText()).toBe("☐ one\n☐ two\n☐ ");
+      expect(editor.getSelections().every((selection) => selection.isEmpty())).toBe(true);
+      expect(editor.getCursorBufferPositions().map((point) => point.toArray())).toEqual([
+        [0, 3],
+        [1, 3],
+        [2, 2],
+      ]);
+    });
+
+    it("restores a clean cursor when undoing and redoing an EOF insertion", () => {
+      editor.setText("task\n");
+      editor.setCursorBufferPosition([1, 0]);
+      atom.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
+      editor.undo();
+      expect(editor.getText()).toBe("task\n");
+      expect(editor.getSelectedText()).toBe("");
+      expect(editor.getCursorBufferPosition().toArray()).toEqual([1, 0]);
+      editor.redo();
+      expect(editor.getText()).toBe("task\n☐ ");
+      expect(editor.getSelectedText()).toBe("");
+      expect(editor.getCursorBufferPosition().toArray()).toEqual([1, 2]);
     });
 
     it("cycles todo -> done -> fail -> todo", () => {
@@ -58,6 +115,22 @@ describe("tasklist-tools", () => {
       expect(editor.lineTextForBufferRow(0)).toBe("☐ task");
     });
 
+    it("does not select text when the cursor touches an existing tick", () => {
+      for (const { text, column } of [
+        { text: "☐ task", column: 0 },
+        { text: "☐ task", column: 1 },
+        { text: "☐ task", column: 2 },
+        { text: "☐", column: 0 },
+        { text: "☐", column: 1 },
+      ]) {
+        editor.setText(text);
+        editor.setCursorBufferPosition([0, column]);
+        atom.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
+        expect(editor.getSelectedText()).toBe("");
+        expect(editor.getCursorBufferPosition().toArray()).toEqual([0, column]);
+      }
+    });
+
     it("toggles every line of a multi-line selection", () => {
       editor.setText("☐ one\n▷ two\n• three\n");
       editor.setSelectedBufferRange([
@@ -66,6 +139,26 @@ describe("tasklist-tools", () => {
       ]);
       atom.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
       expect(editor.getText()).toBe("✔ one\n✔ two\n✔ three\n");
+    });
+
+    it("includes the final row of a selection at EOF without a trailing newline", () => {
+      editor.setText("☐ one\n☐ two");
+      editor.setSelectedBufferRange([
+        [0, 0],
+        [1, 5],
+      ]);
+      atom.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
+      expect(editor.getText()).toBe("✔ one\n✔ two");
+    });
+
+    it("recognizes ticks after tab and mixed indentation", () => {
+      editor.setText("\t☐ one\n \t ✔ two\n");
+      editor.setSelectedBufferRange([
+        [0, 0],
+        [1, 6],
+      ]);
+      atom.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
+      expect(editor.getText()).toBe("\t✔ one\n \t ✘ two\n");
     });
   });
 
@@ -112,6 +205,15 @@ describe("tasklist-tools", () => {
     it("filters by tick type", () => {
       editor.setText("☐ one\n✘ two\n☐ three\n");
       editor.setCursorBufferPosition([0, 0]);
+      atom.commands.dispatch(editorElement, "tasklist-tools:go-to-next-todo");
+      expect(editor.getCursorBufferPosition().row).toBe(2);
+    });
+
+    it("finds ticks after tab and mixed indentation", () => {
+      editor.setText("☐ one\n\t✔ two\n \t ☐ three\n");
+      editor.setCursorBufferPosition([0, 0]);
+      atom.commands.dispatch(editorElement, "tasklist-tools:go-to-next-tick");
+      expect(editor.getCursorBufferPosition().row).toBe(1);
       atom.commands.dispatch(editorElement, "tasklist-tools:go-to-next-todo");
       expect(editor.getCursorBufferPosition().row).toBe(2);
     });
@@ -190,6 +292,17 @@ describe("tasklist-tools", () => {
       status.update();
       const counts = status.ticks.map((el) => el.count);
       expect(counts).toEqual([1, 2, 1, 1, 2]);
+      mainModule.deactivateStatusBar();
+    });
+
+    it("counts ticks after tab and mixed indentation", () => {
+      mainModule.consumeStatusBar({ addLeftTile: () => ({ destroy() {} }) });
+      const status = mainModule.tasklistStatus;
+      status.editor = editor;
+      editor.setText("\t▷ a\n \t ☐ b\n\t✔ c\n \t✘ d\n\t • e\n");
+      status.update();
+      const counts = status.ticks.map((el) => el.count);
+      expect(counts).toEqual([1, 1, 1, 1, 1]);
       mainModule.deactivateStatusBar();
     });
   });
