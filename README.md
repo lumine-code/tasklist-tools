@@ -42,9 +42,9 @@ Commands available in `atom-text-editor[data-grammar~="tasklist"]:not([mini])`:
 
 ## Customization
 
-The status-bar counter can be restyled from your `styles.less`, e.g.:
+The status-bar counter can be restyled from your `styles.css`, e.g.:
 
-```less
+```css
 .tasklist-status {
   #done-counter {
     color: var(--text-color-success);
