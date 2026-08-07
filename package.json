@@ -35,7 +35,7 @@
     "format:check": "prettier --check ."
   },
   "activationCommands": {
-    "atom-text-editor": [
+    "atom-workspace": [
       "tasklist-tools:toggle-tick",
       "tasklist-tools:set-as-high",
       "tasklist-tools:set-as-todo",

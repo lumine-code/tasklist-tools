@@ -4,7 +4,19 @@ describe("tasklist-tools", () => {
   beforeEach(async () => {
     workspaceElement = atom.views.getView(atom.workspace);
     jasmine.attachToDOM(workspaceElement);
-    editor = await atom.workspace.open();
+    // Every command declines outside a tasklist, so the buffer has to be one.
+    // A stand-in grammar rather than language-tasklist: the scope name is the
+    // whole contract between the two packages, and depending on the real one
+    // would make this suite need a package it does not ship with.
+    atom.grammars.addGrammar(
+      atom.grammars.createGrammar("tasklist.json", {
+        name: "Tasklist",
+        scopeName: "text.tasklist",
+        fileTypes: ["tasklist"],
+        patterns: [],
+      }),
+    );
+    editor = await atom.workspace.open("notes.tasklist");
     editorElement = atom.views.getView(editor);
 
     // The package defers activation until one of its commands is dispatched.
@@ -36,6 +48,30 @@ describe("tasklist-tools", () => {
       ]) {
         expect(commands).toContain(name);
       }
+    });
+
+    // The application menu dispatches at whatever holds focus, so the commands
+    // have to be reachable from the workspace — and, being reachable
+    // everywhere, they have to refuse anywhere they do not belong.
+    it("registers them on the workspace, not on the editor element", () => {
+      const commands = atom.commands
+        .findCommands({ target: workspaceElement })
+        .map((command) => command.name);
+
+      expect(commands).toContain("tasklist-tools:toggle-tick");
+    });
+
+    it("declines and says why when the buffer is not a tasklist", async () => {
+      const other = await atom.workspace.open("notes.txt");
+      other.setText("plain text\n");
+      const warnings = [];
+      atom.notifications.onDidAddNotification((notification) => warnings.push(notification));
+
+      atom.commands.dispatch(workspaceElement, "tasklist-tools:set-as-done");
+
+      expect(other.getText()).toBe("plain text\n");
+      expect(warnings.length).toBe(1);
+      expect(warnings[0].getType()).toBe("warning");
     });
   });
 

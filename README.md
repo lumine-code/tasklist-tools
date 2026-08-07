@@ -19,7 +19,8 @@ To install `tasklist-tools` search for _tasklist-tools_ in the Install pane of t
 
 ## Commands
 
-Commands available in `atom-text-editor[data-grammar~="tasklist"]:not([mini])`:
+Commands available in `atom-workspace`. Each acts on the active editor and
+declines with a notification when its grammar is not a tasklist:
 
 - `tasklist-tools:toggle-tick`: add or toggle tick of selected tasks by `▷` `☐` `•` -> `✔` -> `✘` -> `☐` cycle,
 - `tasklist-tools:set-as-high`: add or change tick of selected tasks as `▷`,
