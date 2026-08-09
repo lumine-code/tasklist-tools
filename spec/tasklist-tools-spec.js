@@ -2,33 +2,33 @@ describe("tasklist-tools", () => {
   let workspaceElement, editor, editorElement, mainModule;
 
   beforeEach(async () => {
-    workspaceElement = atom.views.getView(atom.workspace);
+    workspaceElement = lumine.views.getView(lumine.workspace);
     jasmine.attachToDOM(workspaceElement);
     // Every command declines outside a tasklist, so the buffer has to be one.
     // A stand-in grammar rather than language-tasklist: the scope name is the
     // whole contract between the two packages, and depending on the real one
     // would make this suite need a package it does not ship with.
-    atom.grammars.addGrammar(
-      atom.grammars.createGrammar("tasklist.json", {
+    lumine.grammars.addGrammar(
+      lumine.grammars.createGrammar("tasklist.json", {
         name: "Tasklist",
         scopeName: "text.tasklist",
         fileTypes: ["tasklist"],
         patterns: [],
       }),
     );
-    editor = await atom.workspace.open("notes.tasklist");
-    editorElement = atom.views.getView(editor);
+    editor = await lumine.workspace.open("notes.tasklist");
+    editorElement = lumine.views.getView(editor);
 
     // The package defers activation until one of its commands is dispatched.
-    const activation = atom.packages.activatePackage("tasklist-tools");
-    atom.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
+    const activation = lumine.packages.activatePackage("tasklist-tools");
+    lumine.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
     mainModule = (await activation).mainModule;
     editor.setText("");
   });
 
   describe("command registration", () => {
     it("registers all task commands on text editors", () => {
-      const commands = atom.commands
+      const commands = lumine.commands
         .findCommands({ target: editorElement })
         .map((command) => command.name);
       for (const name of [
@@ -54,7 +54,7 @@ describe("tasklist-tools", () => {
     // have to be reachable from the workspace — and, being reachable
     // everywhere, they have to refuse anywhere they do not belong.
     it("registers them on the workspace, not on the editor element", () => {
-      const commands = atom.commands
+      const commands = lumine.commands
         .findCommands({ target: workspaceElement })
         .map((command) => command.name);
 
@@ -62,12 +62,12 @@ describe("tasklist-tools", () => {
     });
 
     it("declines and says why when the buffer is not a tasklist", async () => {
-      const other = await atom.workspace.open("notes.txt");
+      const other = await lumine.workspace.open("notes.txt");
       other.setText("plain text\n");
       const warnings = [];
-      atom.notifications.onDidAddNotification((notification) => warnings.push(notification));
+      lumine.notifications.onDidAddNotification((notification) => warnings.push(notification));
 
-      atom.commands.dispatch(workspaceElement, "tasklist-tools:set-as-done");
+      lumine.commands.dispatch(workspaceElement, "tasklist-tools:set-as-done");
 
       expect(other.getText()).toBe("plain text\n");
       expect(warnings.length).toBe(1);
@@ -79,7 +79,7 @@ describe("tasklist-tools", () => {
     it("inserts a todo tick on an unticked line", () => {
       editor.setText("  task\n");
       editor.setCursorBufferPosition([0, 3]);
-      atom.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
       expect(editor.lineTextForBufferRow(0)).toBe("  ☐ task");
       expect(editor.getSelectedText()).toBe("");
       expect(editor.getCursorBufferPosition().toArray()).toEqual([0, 5]);
@@ -88,7 +88,7 @@ describe("tasklist-tools", () => {
     it("leaves an empty selection after inserting a tick", () => {
       editor.setText("task");
       editor.setCursorBufferPosition([0, 2]);
-      atom.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
       expect(editor.getSelectedText()).toBe("");
       expect(editor.getCursorBufferPosition().toArray()).toEqual([0, 4]);
     });
@@ -96,7 +96,7 @@ describe("tasklist-tools", () => {
     it("inserts a tick on an empty final line without selecting it", () => {
       editor.setText("task\n");
       editor.setCursorBufferPosition([1, 0]);
-      atom.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
       expect(editor.getText()).toBe("task\n☐ ");
       expect(editor.getSelectedText()).toBe("");
       expect(editor.getCursorBufferPosition().toArray()).toEqual([1, 2]);
@@ -105,7 +105,7 @@ describe("tasklist-tools", () => {
     it("inserts a tick into an empty file without selecting it", () => {
       editor.setText("");
       editor.setCursorBufferPosition([0, 0]);
-      atom.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
       expect(editor.getText()).toBe("☐ ");
       expect(editor.getSelectedText()).toBe("");
       expect(editor.getCursorBufferPosition().toArray()).toEqual([0, 2]);
@@ -116,7 +116,7 @@ describe("tasklist-tools", () => {
       editor.setCursorBufferPosition([0, 1]);
       editor.addCursorAtBufferPosition([1, 1]);
       editor.addCursorAtBufferPosition([2, 0]);
-      atom.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
       expect(editor.getText()).toBe("☐ one\n☐ two\n☐ ");
       expect(editor.getSelections().every((selection) => selection.isEmpty())).toBe(true);
       expect(editor.getCursorBufferPositions().map((point) => point.toArray())).toEqual([
@@ -129,7 +129,7 @@ describe("tasklist-tools", () => {
     it("restores a clean cursor when undoing and redoing an EOF insertion", () => {
       editor.setText("task\n");
       editor.setCursorBufferPosition([1, 0]);
-      atom.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
       editor.undo();
       expect(editor.getText()).toBe("task\n");
       expect(editor.getSelectedText()).toBe("");
@@ -143,11 +143,11 @@ describe("tasklist-tools", () => {
     it("cycles todo -> done -> fail -> todo", () => {
       editor.setText("☐ task\n");
       editor.setCursorBufferPosition([0, 3]);
-      atom.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
       expect(editor.lineTextForBufferRow(0)).toBe("✔ task");
-      atom.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
       expect(editor.lineTextForBufferRow(0)).toBe("✘ task");
-      atom.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
       expect(editor.lineTextForBufferRow(0)).toBe("☐ task");
     });
 
@@ -161,7 +161,7 @@ describe("tasklist-tools", () => {
       ]) {
         editor.setText(text);
         editor.setCursorBufferPosition([0, column]);
-        atom.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
+        lumine.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
         expect(editor.getSelectedText()).toBe("");
         expect(editor.getCursorBufferPosition().toArray()).toEqual([0, column]);
       }
@@ -173,7 +173,7 @@ describe("tasklist-tools", () => {
         [0, 0],
         [2, 7],
       ]);
-      atom.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
       expect(editor.getText()).toBe("✔ one\n✔ two\n✔ three\n");
     });
 
@@ -183,7 +183,7 @@ describe("tasklist-tools", () => {
         [0, 0],
         [1, 5],
       ]);
-      atom.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
       expect(editor.getText()).toBe("✔ one\n✔ two");
     });
 
@@ -193,7 +193,7 @@ describe("tasklist-tools", () => {
         [0, 0],
         [1, 6],
       ]);
-      atom.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:toggle-tick");
       expect(editor.getText()).toBe("\t✔ one\n \t ✘ two\n");
     });
   });
@@ -210,7 +210,7 @@ describe("tasklist-tools", () => {
       for (const [command, symbol] of cases) {
         editor.setText("☐ task\n");
         editor.setCursorBufferPosition([0, 3]);
-        atom.commands.dispatch(editorElement, `tasklist-tools:${command}`);
+        lumine.commands.dispatch(editorElement, `tasklist-tools:${command}`);
         expect(editor.lineTextForBufferRow(0)).toBe(`${symbol} task`);
       }
     });
@@ -218,7 +218,7 @@ describe("tasklist-tools", () => {
     it("inserts the requested symbol on an unticked line", () => {
       editor.setText("task\n");
       editor.setCursorBufferPosition([0, 2]);
-      atom.commands.dispatch(editorElement, "tasklist-tools:set-as-fail");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:set-as-fail");
       expect(editor.lineTextForBufferRow(0)).toBe("✘ task");
     });
   });
@@ -227,30 +227,30 @@ describe("tasklist-tools", () => {
     it("moves the cursor to the next tick below", () => {
       editor.setText("☐ one\ntext\n✔ two\n");
       editor.setCursorBufferPosition([0, 0]);
-      atom.commands.dispatch(editorElement, "tasklist-tools:go-to-next-tick");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:go-to-next-tick");
       expect(editor.getCursorBufferPosition().row).toBe(2);
     });
 
     it("wraps around to the first tick", () => {
       editor.setText("☐ one\ntext\n✔ two\n");
       editor.setCursorBufferPosition([2, 0]);
-      atom.commands.dispatch(editorElement, "tasklist-tools:go-to-next-tick");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:go-to-next-tick");
       expect(editor.getCursorBufferPosition().row).toBe(0);
     });
 
     it("filters by tick type", () => {
       editor.setText("☐ one\n✘ two\n☐ three\n");
       editor.setCursorBufferPosition([0, 0]);
-      atom.commands.dispatch(editorElement, "tasklist-tools:go-to-next-todo");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:go-to-next-todo");
       expect(editor.getCursorBufferPosition().row).toBe(2);
     });
 
     it("finds ticks after tab and mixed indentation", () => {
       editor.setText("☐ one\n\t✔ two\n \t ☐ three\n");
       editor.setCursorBufferPosition([0, 0]);
-      atom.commands.dispatch(editorElement, "tasklist-tools:go-to-next-tick");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:go-to-next-tick");
       expect(editor.getCursorBufferPosition().row).toBe(1);
-      atom.commands.dispatch(editorElement, "tasklist-tools:go-to-next-todo");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:go-to-next-todo");
       expect(editor.getCursorBufferPosition().row).toBe(2);
     });
   });
@@ -258,13 +258,13 @@ describe("tasklist-tools", () => {
   describe("tasklist-tools:translate-markdown", () => {
     it("converts markdown checkboxes and bullets to tasklist symbols", () => {
       editor.setText("- [ ] open\n- [x] closed\n* [X] upper\n- plain\n");
-      atom.commands.dispatch(editorElement, "tasklist-tools:translate-markdown");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:translate-markdown");
       expect(editor.getText()).toBe("☐ open\n✔ closed\n✔ upper\n• plain\n");
     });
 
     it("preserves indentation", () => {
       editor.setText("  - [ ] nested\n");
-      atom.commands.dispatch(editorElement, "tasklist-tools:translate-markdown");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:translate-markdown");
       expect(editor.getText()).toBe("  ☐ nested\n");
     });
   });
@@ -276,31 +276,31 @@ describe("tasklist-tools", () => {
 
     it("moves the cursor to the next header", () => {
       editor.setCursorBufferPosition([1, 0]);
-      atom.commands.dispatch(editorElement, "tasklist-tools:move-to-next-header");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:move-to-next-header");
       expect(editor.getCursorBufferPosition().row).toBe(2);
     });
 
     it("moves the cursor to the previous header", () => {
       editor.setCursorBufferPosition([3, 0]);
-      atom.commands.dispatch(editorElement, "tasklist-tools:move-to-previous-header");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:move-to-previous-header");
       expect(editor.getCursorBufferPosition().row).toBe(2);
     });
 
     it("moves the cursor to the last header", () => {
       editor.setCursorBufferPosition([0, 0]);
-      atom.commands.dispatch(editorElement, "tasklist-tools:move-to-last-header");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:move-to-last-header");
       expect(editor.getCursorBufferPosition().row).toBe(2);
     });
 
     it("moves selected items below the next header", () => {
       editor.setCursorBufferPosition([1, 2]);
-      atom.commands.dispatch(editorElement, "tasklist-tools:move-items-to-next-header");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:move-items-to-next-header");
       expect(editor.getText()).toBe("First:\nSecond:\n☐ one\n☐ two\n☐ three\n");
     });
 
     it("moves selected items below the last header", () => {
       editor.setCursorBufferPosition([1, 2]);
-      atom.commands.dispatch(editorElement, "tasklist-tools:move-items-to-last-header");
+      lumine.commands.dispatch(editorElement, "tasklist-tools:move-items-to-last-header");
       expect(editor.getText()).toBe("First:\nSecond:\n☐ one\n☐ two\n☐ three\n");
     });
   });

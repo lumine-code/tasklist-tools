@@ -19,7 +19,7 @@ To install `tasklist-tools` search for _tasklist-tools_ in the Install pane of t
 
 ## Commands
 
-Commands available in `atom-workspace`. Each acts on the active editor and
+Commands available in `lumine-workspace`. Each acts on the active editor and
 declines with a notification when its grammar is not a tasklist:
 
 - `tasklist-tools:toggle-tick`: add or toggle tick of selected tasks by `▷` `☐` `•` -> `✔` -> `✘` -> `☐` cycle,
