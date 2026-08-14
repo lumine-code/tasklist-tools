@@ -15,12 +15,11 @@ Requires a grammar package such as [language-tasklist](https://github.com/lumine
 
 ## Installation
 
-To install `tasklist-tools` search for _tasklist-tools_ in the Install pane of the Lumine settings or run `lumine --install lumine-code/tasklist-tools`.
+To install `tasklist-tools` search for it in the Install pane of the Lumine settings, or run the command `lumine --install lumine-code/tasklist-tools`.
 
 ## Commands
 
-Commands available in `lumine-workspace`. Each acts on the active editor and
-declines with a notification when its grammar is not a tasklist:
+Commands available in `lumine-workspace`. Each acts on the active editor and declines with a notification when its grammar is not a tasklist:
 
 - `tasklist-tools:toggle-tick`: add or toggle tick of selected tasks by `▷` `☐` `•` -> `✔` -> `✘` -> `☐` cycle,
 - `tasklist-tools:set-as-high`: add or change tick of selected tasks as `▷`,
@@ -58,7 +57,7 @@ The status-bar counter can be restyled from your `styles.css`, e.g.:
 
 ## Services
 
-- **status-bar** (`^1.0.0`): consumed to show the task summary counter in the status bar.
+- `status-bar`: consumed to show the task summary counter in the status bar.
 
 ## Contributing
 
