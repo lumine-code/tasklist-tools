@@ -75,6 +75,49 @@ describe("tasklist-tools", () => {
     });
   });
 
+  describe("middle-click toggling", () => {
+    function targetLineFor(targetEditor) {
+      const targetElement = lumine.views.getView(targetEditor);
+      targetElement.getComponent().updateSync();
+      return targetElement.querySelector(".line[data-screen-row]");
+    }
+
+    function middleClick(target) {
+      mainModule.eventHandler({
+        which: 2,
+        target,
+        stopPropagation: jasmine.createSpy("stopPropagation"),
+      });
+    }
+
+    it("acts only on a non-mini tasklist editor", async () => {
+      editor.setText("☐ task");
+      const mutate = spyOn(mainModule, "tickMutate");
+
+      middleClick(targetLineFor(editor));
+      expect(mutate).toHaveBeenCalledTimes(1);
+
+      const plainEditor = await lumine.workspace.open("notes.txt");
+      plainEditor.setText("plain text");
+      mutate.calls.reset();
+      middleClick(targetLineFor(plainEditor));
+      expect(mutate).not.toHaveBeenCalled();
+
+      const miniEditor = lumine.workspace.buildTextEditor({ mini: true });
+      miniEditor.setGrammar(editor.getGrammar());
+      const miniElement = lumine.views.getView(miniEditor);
+      const fakeLine = document.createElement("div");
+      fakeLine.className = "line";
+      fakeLine.dataset.screenRow = "0";
+      miniElement.appendChild(fakeLine);
+      mutate.calls.reset();
+      middleClick(fakeLine);
+      expect(mutate).not.toHaveBeenCalled();
+      miniEditor.destroy();
+      plainEditor.destroy();
+    });
+  });
+
   describe("tasklist-tools:toggle-tick", () => {
     it("inserts a todo tick on an unticked line", () => {
       editor.setText("  task\n");
