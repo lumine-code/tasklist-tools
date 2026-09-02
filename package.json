@@ -18,6 +18,9 @@
   "engines": {
     "lumine": "^1.0.0"
   },
+  "specPackages": [
+    "language-tasklist"
+  ],
   "backgroundTips": [
     "You can tick a task off in a tasklist file with {{ 'tasklist-tools:toggle-tick' | keystroke }}"
   ],

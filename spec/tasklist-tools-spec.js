@@ -4,18 +4,9 @@ describe("tasklist-tools", () => {
   beforeEach(async () => {
     workspaceElement = lumine.views.getView(lumine.workspace);
     jasmine.attachToDOM(workspaceElement);
-    // Every command declines outside a tasklist, so the buffer has to be one.
-    // A stand-in grammar rather than language-tasklist: the scope name is the
-    // whole contract between the two packages, and depending on the real one
-    // would make this suite need a package it does not ship with.
-    lumine.grammars.addGrammar(
-      lumine.grammars.createGrammar("tasklist.json", {
-        name: "Tasklist",
-        scopeName: "text.tasklist",
-        fileTypes: ["tasklist"],
-        patterns: [],
-      }),
-    );
+    // Every command declines outside a tasklist, so exercise the same
+    // Tree-sitter grammar that provides the production scope.
+    await lumine.packages.activatePackage("language-tasklist");
     editor = await lumine.workspace.open("notes.tasklist");
     editorElement = lumine.views.getView(editor);
 
