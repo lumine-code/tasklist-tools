@@ -21,9 +21,6 @@
   "specPackages": [
     "language-tasklist"
   ],
-  "backgroundTips": [
-    "You can tick a task off in a tasklist file with {{ 'tasklist-tools:toggle-tick' | keystroke }}"
-  ],
   "main": "./lib/main",
   "files": [
     "keymaps",
@@ -36,6 +33,13 @@
     "lint": "eslint . --max-warnings 0",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
+  },
+  "providedServices": {
+    "background-tips.provider": {
+      "versions": {
+        "1.0.0": "provideBackgroundTips"
+      }
+    }
   },
   "consumedServices": {
     "status-bar": {
