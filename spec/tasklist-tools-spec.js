@@ -308,6 +308,28 @@ describe("tasklist-tools", () => {
       editor.setText("First:\n☐ one\nSecond:\n☐ two\n☐ three\n");
     });
 
+    it("uses the shared language scroll zone for task and header destinations", () => {
+      lumine.config.set("editor.scrollZone", [20, 70], {
+        scopeSelector: ".text.tasklist",
+      });
+      const requests = [];
+      const subscription = editor.onDidRequestAutoscroll((request) => requests.push(request));
+      try {
+        for (const command of [
+          "tasklist-tools:go-to-next-tick",
+          "tasklist-tools:move-to-next-header",
+          "tasklist-tools:move-to-previous-header",
+          "tasklist-tools:move-to-last-header",
+        ]) {
+          editor.setCursorBufferPosition([1, 0]);
+          lumine.commands.dispatch(editorElement, command);
+          expect(requests.at(-1).options.mode).toEqual([20, 70]);
+        }
+      } finally {
+        subscription.dispose();
+      }
+    });
+
     it("moves the cursor to the next header", () => {
       editor.setCursorBufferPosition([1, 0]);
       lumine.commands.dispatch(editorElement, "tasklist-tools:move-to-next-header");
