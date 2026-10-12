@@ -1,3 +1,4 @@
+const windowService = require("./helpers/window-service");
 describe("tasklist-tools status-bar service ownership", () => {
   let main, editor, hub, consumer, StatusBarView, bars, providers;
   const statusFor = (bar) =>
@@ -15,7 +16,7 @@ describe("tasklist-tools status-bar service ownership", () => {
     editor = await lumine.workspace.open("status.tasklist");
     editor.setText("☐ one\n✔ two");
     hub = new lumine.packages.serviceHub.constructor();
-    consumer = hub.consume("status-bar", "^1.0.0", (bar) => main.consumeStatusBar(bar));
+    consumer = hub.consume("status-bar", "^2.0.0", (bar) => main.consumeStatusBar(bar));
     bars = [];
     providers = [];
   });
@@ -41,7 +42,7 @@ describe("tasklist-tools status-bar service ownership", () => {
       bars.push(bar);
       jasmine.attachToDOM(bar.element);
     }
-    const provider = hub.provide("status-bar", "1.0.0", bar);
+    const provider = hub.provide("status-bar", "2.0.0", windowService(bar));
     providers.push(provider);
     return { bar, provider, status: statusFor(bar) };
   };
@@ -143,7 +144,7 @@ describe("tasklist-tools status-bar service ownership", () => {
       main.deactivate();
       return tile;
     });
-    const lease = main.consumeStatusBar(bar);
+    const lease = main.consumeStatusBar(windowService(bar));
     expect(bar.getLeftTiles().length).toBe(0);
     expect(lumine.tooltips.findTooltips(staged.element)).toEqual([]);
     expect(staged.editor).toBeNull();
@@ -158,11 +159,11 @@ describe("tasklist-tools status-bar service ownership", () => {
       staged = options.item;
       throw new Error("Tile creation failed");
     });
-    expect(() => main.consumeStatusBar(bar)).toThrowError("Tile creation failed");
+    expect(() => main.consumeStatusBar(windowService(bar))).toThrowError("Tile creation failed");
     expect(lumine.tooltips.findTooltips(staged.element)).toEqual([]);
     expect(staged.editor).toBeNull();
     add.and.callThrough();
-    const lease = main.consumeStatusBar(bar);
+    const lease = main.consumeStatusBar(windowService(bar));
     expect(bar.getLeftTiles().length).toBe(1);
     lease.dispose();
     expect(bar.getLeftTiles().length).toBe(0);

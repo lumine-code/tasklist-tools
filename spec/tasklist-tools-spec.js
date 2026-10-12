@@ -1,3 +1,4 @@
+const windowService = require("./helpers/window-service");
 describe("tasklist-tools", () => {
   let workspaceElement, editor, editorElement, mainModule;
 
@@ -370,14 +371,14 @@ describe("tasklist-tools", () => {
           return { destroy() {}, getItem: () => tile.item };
         },
       };
-      mainModule.consumeStatusBar(statusBar);
+      mainModule.consumeStatusBar(windowService(statusBar));
       expect(tiles.length).toBe(1);
       expect(tiles[0].item.element.classList.contains("tasklist-status")).toBe(true);
       mainModule.deactivateStatusBar();
     });
 
     it("counts ticks of each type", () => {
-      mainModule.consumeStatusBar({ addLeftTile: () => ({ destroy() {} }) });
+      mainModule.consumeStatusBar(windowService({ addLeftTile: () => ({ destroy() {} }) }));
       const status = mainModule.tasklistStatus;
       status.editor = editor;
       editor.setText("▷ a\n☐ b\n☐ c\n✔ d\n✘ e\n• f\n• g\n");
@@ -388,7 +389,7 @@ describe("tasklist-tools", () => {
     });
 
     it("counts ticks after tab and mixed indentation", () => {
-      mainModule.consumeStatusBar({ addLeftTile: () => ({ destroy() {} }) });
+      mainModule.consumeStatusBar(windowService({ addLeftTile: () => ({ destroy() {} }) }));
       const status = mainModule.tasklistStatus;
       status.editor = editor;
       editor.setText("\t▷ a\n \t ☐ b\n\t✔ c\n \t✘ d\n\t • e\n");
