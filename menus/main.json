@@ -1,20 +1,4 @@
 {
-  "context-menu": {
-    "lumine-text-editor[data-grammar~=\"tasklist\"]:not([mini])": [
-      { "type": "separator" },
-      {
-        "label": "Toggle Tasks",
-        "command": "tasklist-tools:toggle-tick",
-        "afterGroupContaining": ["core:select-all", "core:paste", "core:redo", "core:undo"]
-      },
-      { "label": "Set Tasks as High", "command": "tasklist-tools:set-as-high" },
-      { "label": "Set Tasks as Todo", "command": "tasklist-tools:set-as-todo" },
-      { "label": "Set Tasks as Done", "command": "tasklist-tools:set-as-done" },
-      { "label": "Set Tasks as Fail", "command": "tasklist-tools:set-as-fail" },
-      { "label": "Set Tasks as Info", "command": "tasklist-tools:set-as-info" },
-      { "type": "separator" }
-    ]
-  },
   "menu": [
     {
       "label": "Packages",
@@ -22,21 +6,64 @@
         {
           "label": "Tasklist Tools",
           "submenu": [
-            { "label": "Toggle Tasks", "command": "tasklist-tools:toggle-tick" },
-            { "label": "Set as High", "command": "tasklist-tools:set-as-high" },
-            { "label": "Set as Todo", "command": "tasklist-tools:set-as-todo" },
-            { "label": "Set as Done", "command": "tasklist-tools:set-as-done" },
-            { "label": "Set as Fail", "command": "tasklist-tools:set-as-fail" },
-            { "label": "Set as Info", "command": "tasklist-tools:set-as-info" },
-            { "type": "separator" },
-            { "label": "Go to Next Tick", "command": "tasklist-tools:go-to-next-tick" },
-            { "label": "Go to Next High", "command": "tasklist-tools:go-to-next-high" },
-            { "label": "Go to Next Todo", "command": "tasklist-tools:go-to-next-todo" },
-            { "label": "Go to Next Done", "command": "tasklist-tools:go-to-next-done" },
-            { "label": "Go to Next Fail", "command": "tasklist-tools:go-to-next-fail" },
-            { "label": "Go to Next Info", "command": "tasklist-tools:go-to-next-info" },
-            { "type": "separator" },
-            { "label": "Translate Markdown", "command": "tasklist-tools:translate-markdown" },
+            {
+              "label": "Toggle Tasks",
+              "command": "tasklist-tools:toggle-tick"
+            },
+            {
+              "label": "Set as High",
+              "command": "tasklist-tools:set-as-high"
+            },
+            {
+              "label": "Set as Todo",
+              "command": "tasklist-tools:set-as-todo"
+            },
+            {
+              "label": "Set as Done",
+              "command": "tasklist-tools:set-as-done"
+            },
+            {
+              "label": "Set as Fail",
+              "command": "tasklist-tools:set-as-fail"
+            },
+            {
+              "label": "Set as Info",
+              "command": "tasklist-tools:set-as-info"
+            },
+            {
+              "type": "separator"
+            },
+            {
+              "label": "Go to Next Tick",
+              "command": "tasklist-tools:go-to-next-tick"
+            },
+            {
+              "label": "Go to Next High",
+              "command": "tasklist-tools:go-to-next-high"
+            },
+            {
+              "label": "Go to Next Todo",
+              "command": "tasklist-tools:go-to-next-todo"
+            },
+            {
+              "label": "Go to Next Done",
+              "command": "tasklist-tools:go-to-next-done"
+            },
+            {
+              "label": "Go to Next Fail",
+              "command": "tasklist-tools:go-to-next-fail"
+            },
+            {
+              "label": "Go to Next Info",
+              "command": "tasklist-tools:go-to-next-info"
+            },
+            {
+              "type": "separator"
+            },
+            {
+              "label": "Translate Markdown",
+              "command": "tasklist-tools:translate-markdown"
+            },
             {
               "label": "Move Items to Next Header",
               "command": "tasklist-tools:move-items-to-next-header"
@@ -49,5 +76,109 @@
         }
       ]
     }
-  ]
+  ],
+  "context-menu": {
+    "lumine-text-editor[data-grammar~=\"tasklist\"]:not([mini])": [
+      {
+        "type": "separator"
+      },
+      {
+        "label": "Toggle Tasks",
+        "command": "tasklist-tools:toggle-tick",
+        "afterGroupContaining": ["core:select-all", "core:paste", "core:redo", "core:undo"]
+      },
+      {
+        "label": "Set Tasks as High",
+        "command": "tasklist-tools:set-as-high"
+      },
+      {
+        "label": "Set Tasks as Todo",
+        "command": "tasklist-tools:set-as-todo"
+      },
+      {
+        "label": "Set Tasks as Done",
+        "command": "tasklist-tools:set-as-done"
+      },
+      {
+        "label": "Set Tasks as Fail",
+        "command": "tasklist-tools:set-as-fail"
+      },
+      {
+        "label": "Set Tasks as Info",
+        "command": "tasklist-tools:set-as-info"
+      },
+      {
+        "type": "separator"
+      }
+    ],
+    ".tasklist-status": [
+      {
+        "type": "separator"
+      },
+      {
+        "label": "Go to Next Tick",
+        "command": "tasklist-tools:go-to-next-tick"
+      },
+      {
+        "label": "Toggle Tasks",
+        "command": "tasklist-tools:toggle-tick"
+      },
+      {
+        "type": "separator"
+      },
+      {
+        "label": "Go to Next",
+        "submenu": [
+          {
+            "label": "High",
+            "command": "tasklist-tools:go-to-next-high"
+          },
+          {
+            "label": "Todo",
+            "command": "tasklist-tools:go-to-next-todo"
+          },
+          {
+            "label": "Done",
+            "command": "tasklist-tools:go-to-next-done"
+          },
+          {
+            "label": "Fail",
+            "command": "tasklist-tools:go-to-next-fail"
+          },
+          {
+            "label": "Info",
+            "command": "tasklist-tools:go-to-next-info"
+          }
+        ]
+      },
+      {
+        "label": "Set as",
+        "submenu": [
+          {
+            "label": "High",
+            "command": "tasklist-tools:set-as-high"
+          },
+          {
+            "label": "Todo",
+            "command": "tasklist-tools:set-as-todo"
+          },
+          {
+            "label": "Done",
+            "command": "tasklist-tools:set-as-done"
+          },
+          {
+            "label": "Fail",
+            "command": "tasklist-tools:set-as-fail"
+          },
+          {
+            "label": "Info",
+            "command": "tasklist-tools:set-as-info"
+          }
+        ]
+      },
+      {
+        "type": "separator"
+      }
+    ]
+  }
 }

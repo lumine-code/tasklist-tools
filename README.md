@@ -55,6 +55,8 @@ The status-bar counter can be restyled from your `styles.css`, e.g.:
 }
 ```
 
+Click the status counter to go to the next task, middle-click to toggle its state, or right-click for both actions and menus for navigating by type or setting a state. Each action uses the tasklist in that counter’s window.
+
 ## Services
 
 - `status-bar`: consumed to show the task summary counter in the status bar.
