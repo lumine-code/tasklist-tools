@@ -44,6 +44,64 @@ describe("Tasklist status action menu", () => {
     await lumine.commands.dispatch(remoteTile, "tasklist-tools:toggle-tick");
     expect(other.getText()).toBe("✔ remote");
     expect(editor.getText()).toBe("☐ first\n☐ second");
+    const keys = lumine.keymaps.add(
+      "tasklist-status-owner-spec",
+      {
+        'lumine-text-editor[data-menu-owner="remote"]': {
+          "ctrl-alt-1": "tasklist-tools:toggle-tick",
+        },
+      },
+      100,
+    );
+    other.getElement().setAttribute("data-menu-owner", "remote");
+    try {
+      expect(lumine.contextMenu.templateForElement(remoteTile)[1].keyBindingLabel).toBe(
+        process.platform === "darwin" ? "⌃⌥1" : "Ctrl+Alt+1",
+      );
+      expect(lumine.contextMenu.templateForElement(tile)[1].keyBindingLabel).toBe(
+        process.platform === "darwin" ? "⌥⏎" : "Alt+Enter",
+      );
+    } finally {
+      keys.dispose();
+    }
+  });
+  it("shows the owned task shortcuts, including nested states, only for a tasklist", async () => {
+    const menu = lumine.contextMenu.templateForElement(tile);
+    const alt = process.platform === "darwin" ? "⌥" : "Alt+";
+    expect(menu[1].keyBindingLabel).toBe(`${alt}${process.platform === "darwin" ? "⏎" : "Enter"}`);
+    expect(
+      menu.find((item) => item.label === "Set as").submenu.map((item) => item.keyBindingLabel),
+    ).toEqual([
+      `${alt}/`,
+      `${alt}*`,
+      process.platform === "darwin" ? "⌥⇧=" : "Alt+Shift+=",
+      `${alt}-`,
+      `${alt}.`,
+    ]);
+    const popup = lumine.contextMenu.show(tile, menu);
+    try {
+      expect(popup.rootList.items[1].keystrokeElement.textContent).toBe(menu[1].keyBindingLabel);
+      const submenu = popup.openSubmenu(
+        popup.rootList.items.find((item) => item.template.label === "Set as"),
+      );
+      expect(submenu.items.map((item) => item.keystrokeElement.textContent)).toEqual([
+        `${alt}/`,
+        `${alt}*`,
+        process.platform === "darwin" ? "⌥⇧=" : "Alt+Shift+=",
+        `${alt}-`,
+        `${alt}.`,
+      ]);
+    } finally {
+      popup.close();
+    }
+    await lumine.packages.activatePackage("language-text");
+    editor.setGrammar(lumine.grammars.grammarForScopeName("text.plain"));
+    expect(lumine.contextMenu.templateForElement(tile)[1].keyBindingLabel).toBe("");
+    await lumine.workspace.open({
+      getTitle: () => "Preview",
+      element: document.createElement("div"),
+    });
+    expect(lumine.contextMenu.templateForElement(tile)[1].keyBindingLabel).toBe("");
   });
   it("disposes the menu and mouse listeners", async () => {
     await lumine.packages.deactivatePackage("tasklist-tools");
