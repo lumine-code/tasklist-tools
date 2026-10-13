@@ -81,7 +81,9 @@
       "submenu": [
         {
           "label": "Toggle Tasks",
-          "command": "tasklist-tools:toggle-tick"
+          "command": "tasklist-tools:toggle-tick",
+          "group": "annotations",
+          "order": 20
         }
       ]
     }
@@ -94,27 +96,39 @@
       {
         "label": "Toggle Tasks",
         "command": "tasklist-tools:toggle-tick",
-        "afterGroupContaining": ["core:select-all", "core:paste", "core:redo", "core:undo"]
+        "afterGroupContaining": ["core:select-all", "core:paste", "core:redo", "core:undo"],
+        "group": "annotations",
+        "order": 20
       },
       {
         "label": "Set Tasks as High",
-        "command": "tasklist-tools:set-as-high"
+        "command": "tasklist-tools:set-as-high",
+        "group": "annotations",
+        "order": 30
       },
       {
         "label": "Set Tasks as Todo",
-        "command": "tasklist-tools:set-as-todo"
+        "command": "tasklist-tools:set-as-todo",
+        "group": "annotations",
+        "order": 40
       },
       {
         "label": "Set Tasks as Done",
-        "command": "tasklist-tools:set-as-done"
+        "command": "tasklist-tools:set-as-done",
+        "group": "annotations",
+        "order": 50
       },
       {
         "label": "Set Tasks as Fail",
-        "command": "tasklist-tools:set-as-fail"
+        "command": "tasklist-tools:set-as-fail",
+        "group": "annotations",
+        "order": 60
       },
       {
         "label": "Set Tasks as Info",
-        "command": "tasklist-tools:set-as-info"
+        "command": "tasklist-tools:set-as-info",
+        "group": "annotations",
+        "order": 70
       },
       {
         "type": "separator"
