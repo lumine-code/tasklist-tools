@@ -1,0 +1,16 @@
+{
+  "title": "tasklist-tools",
+  "description": "Mark tasks as complete and track the remaining work.",
+  "recordedOn": "2026-10-13",
+  "sourceRevision": "d56964a328ac57c0fc1f3a46491c82596f8fdec6",
+  "mode": "normal",
+  "fontSettings": "default",
+  "images": [
+    {
+      "file": "demo.png",
+      "label": "Mark tasks as complete and track the remaining work.",
+      "width": 1100,
+      "height": 340
+    }
+  ]
+}

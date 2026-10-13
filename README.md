@@ -13,6 +13,8 @@ Requires a grammar package such as [language-tasklist](https://github.com/lumine
 - **Markdown translation**: convert markdown checkboxes to tasklist format.
 - **Navigation panel**: outline support via [navigation-panel](https://github.com/lumine-code/navigation-panel).
 
+![Mark tasks as complete and track the remaining work.](.github/demo.png)
+
 ## Installation
 
 To install `tasklist-tools` search for it in the Install pane of the Lumine settings, or run the command `lumine --install lumine-code/tasklist-tools`.
