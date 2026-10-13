@@ -2,7 +2,11 @@
   "context-menu": {
     "lumine-text-editor[data-grammar~=\"tasklist\"]:not([mini])": [
       { "type": "separator" },
-      { "label": "Toggle Tasks", "command": "tasklist-tools:toggle-tick" },
+      {
+        "label": "Toggle Tasks",
+        "command": "tasklist-tools:toggle-tick",
+        "afterGroupContaining": ["core:select-all", "core:paste", "core:redo", "core:undo"]
+      },
       { "label": "Set Tasks as High", "command": "tasklist-tools:set-as-high" },
       { "label": "Set Tasks as Todo", "command": "tasklist-tools:set-as-todo" },
       { "label": "Set Tasks as Done", "command": "tasklist-tools:set-as-done" },
