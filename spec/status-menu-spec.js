@@ -19,6 +19,10 @@ describe("Tasklist status action menu", () => {
     const menu = lumine.contextMenu.templateForElement(tile);
     expect(menu[0].command).toBe("tasklist-tools:go-to-next-tick");
     expect(menu[1].command).toBe("tasklist-tools:toggle-tick");
+    expect(menu[0].mouseBindingLabel).toBe("LMB");
+    expect(menu[1].mouseBindingLabel).toBe("MMB");
+    const [tooltip] = lumine.tooltips.findTooltips(tile);
+    expect(tooltip.getTitle()).toBe("Task counts. Click to go to the next task.");
     expect(menu.find((item) => item.label === "Go to Next").submenu).toHaveSize(5);
     expect(menu.find((item) => item.label === "Set as").submenu).toHaveSize(5);
     const dispatch = spyOn(lumine.commands, "dispatch");
