@@ -117,13 +117,11 @@
       },
       {
         "label": "Go to Next Tick",
-        "command": "tasklist-tools:go-to-next-tick",
-        "mouseBindingLabel": "LMB"
+        "command": "tasklist-tools:go-to-next-tick"
       },
       {
         "label": "Toggle Tasks",
-        "command": "tasklist-tools:toggle-tick",
-        "mouseBindingLabel": "MMB"
+        "command": "tasklist-tools:toggle-tick"
       },
       {
         "type": "separator"
