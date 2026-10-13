@@ -75,6 +75,15 @@
           ]
         }
       ]
+    },
+    {
+      "label": "Edit",
+      "submenu": [
+        {
+          "label": "Toggle Tasks",
+          "command": "tasklist-tools:toggle-tick"
+        }
+      ]
     }
   ],
   "context-menu": {
