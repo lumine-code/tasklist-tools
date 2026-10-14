@@ -7,70 +7,79 @@
           "label": "Tasklist Tools",
           "submenu": [
             {
-              "label": "Toggle Tasks",
+              "label": "Cycle Task State",
               "command": "tasklist-tools:toggle-tick"
             },
             {
-              "label": "Set as High",
-              "command": "tasklist-tools:set-as-high"
+              "label": "Set Task State",
+              "submenu": [
+                {
+                  "label": "High Priority",
+                  "command": "tasklist-tools:set-as-high"
+                },
+                {
+                  "label": "To Do",
+                  "command": "tasklist-tools:set-as-todo"
+                },
+                {
+                  "label": "Done",
+                  "command": "tasklist-tools:set-as-done"
+                },
+                {
+                  "label": "Failed",
+                  "command": "tasklist-tools:set-as-fail"
+                },
+                {
+                  "label": "Note",
+                  "command": "tasklist-tools:set-as-info"
+                }
+              ]
             },
             {
-              "label": "Set as Todo",
-              "command": "tasklist-tools:set-as-todo"
+              "label": "Go to Next",
+              "submenu": [
+                {
+                  "label": "Any Marked Line",
+                  "command": "tasklist-tools:go-to-next-tick"
+                },
+                {
+                  "label": "High Priority",
+                  "command": "tasklist-tools:go-to-next-high"
+                },
+                {
+                  "label": "To Do",
+                  "command": "tasklist-tools:go-to-next-todo"
+                },
+                {
+                  "label": "Done",
+                  "command": "tasklist-tools:go-to-next-done"
+                },
+                {
+                  "label": "Failed",
+                  "command": "tasklist-tools:go-to-next-fail"
+                },
+                {
+                  "label": "Note",
+                  "command": "tasklist-tools:go-to-next-info"
+                }
+              ]
             },
             {
-              "label": "Set as Done",
-              "command": "tasklist-tools:set-as-done"
+              "label": "Move Selected Items",
+              "submenu": [
+                {
+                  "label": "Under Next Header",
+                  "command": "tasklist-tools:move-items-to-next-header"
+                },
+                {
+                  "label": "Under Last Header",
+                  "command": "tasklist-tools:move-items-to-last-header"
+                }
+              ]
             },
             {
-              "label": "Set as Fail",
-              "command": "tasklist-tools:set-as-fail"
-            },
-            {
-              "label": "Set as Info",
-              "command": "tasklist-tools:set-as-info"
-            },
-            {
-              "type": "separator"
-            },
-            {
-              "label": "Go to Next Tick",
-              "command": "tasklist-tools:go-to-next-tick"
-            },
-            {
-              "label": "Go to Next High",
-              "command": "tasklist-tools:go-to-next-high"
-            },
-            {
-              "label": "Go to Next Todo",
-              "command": "tasklist-tools:go-to-next-todo"
-            },
-            {
-              "label": "Go to Next Done",
-              "command": "tasklist-tools:go-to-next-done"
-            },
-            {
-              "label": "Go to Next Fail",
-              "command": "tasklist-tools:go-to-next-fail"
-            },
-            {
-              "label": "Go to Next Info",
-              "command": "tasklist-tools:go-to-next-info"
-            },
-            {
-              "type": "separator"
-            },
-            {
-              "label": "Translate Markdown",
+              "label": "Convert Markdown Checkboxes and Bullets in File",
               "command": "tasklist-tools:translate-markdown"
-            },
-            {
-              "label": "Move Items to Next Header",
-              "command": "tasklist-tools:move-items-to-next-header"
-            },
-            {
-              "label": "Move Items to Last Header",
-              "command": "tasklist-tools:move-items-to-last-header"
             }
           ]
         }
