@@ -1,16 +1,66 @@
 {
   "title": "tasklist-tools",
   "description": "Mark tasks as complete and track the remaining work.",
-  "recordedOn": "2026-10-13",
-  "sourceRevision": "d56964a328ac57c0fc1f3a46491c82596f8fdec6",
+  "recordedOn": "2026-10-14",
+  "sourceRevision": "7dd5b946d30359d3bb22754003fbcf5a472bfb0f",
+  "themeSourceRevision": "7fbd047a87ecf1367c896b19ff270cdc28d319f7",
   "mode": "normal",
   "fontSettings": "default",
+  "scenario": "demo.js",
+  "recipeHash": "98d5123d2a5fc0b312892d9f8586bfaf8e24e459510703f44d7851372adffd7f",
+  "environment": {
+    "platform": "win32",
+    "arch": "x64",
+    "electron": "44.7.0",
+    "chrome": "152.0.7977.130",
+    "devicePixelRatio": 1,
+    "locale": "en-GB",
+    "fontFamily": "Fira Code, Menlo, DejaVu Sans Mono, Consolas, monospace",
+    "fontSize": 14,
+    "themes": ["one-day-syntax", "one-day-ui"]
+  },
+  "viewport": { "width": 1100, "height": 340 },
+  "cornerRadius": 10,
+  "sources": {
+    "editor": {
+      "revision": "8be8f86075ad93df038610d82b3ac6d99329957d",
+      "dirty": false,
+      "workingTreeHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "package": {
+      "revision": "7dd5b946d30359d3bb22754003fbcf5a472bfb0f",
+      "dirty": false,
+      "workingTreeHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "tasklist-tools": {
+      "revision": "7dd5b946d30359d3bb22754003fbcf5a472bfb0f",
+      "dirty": false,
+      "workingTreeHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "language-tasklist": {
+      "revision": "33b51d8961e668b91eaf0d30698be98b183fc17d",
+      "dirty": false,
+      "workingTreeHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "one-theme": {
+      "revision": "7fbd047a87ecf1367c896b19ff270cdc28d319f7",
+      "dirty": false,
+      "workingTreeHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  },
+  "fixtures": [
+    {
+      "file": "usage/experiment.tasklist",
+      "sha256": "9d2392a520bfffc0f7853548c4969ac43d6d308f2fe7456fe77bad108bb13eb2"
+    }
+  ],
   "images": [
     {
       "file": "demo.png",
       "label": "Mark tasks as complete and track the remaining work.",
       "width": 1100,
-      "height": 340
+      "height": 340,
+      "sha256": "1925c07bad6e7da9d84236bc29ae82e947d976f48afe270f0841ea17bc4b0774"
     }
   ]
 }
