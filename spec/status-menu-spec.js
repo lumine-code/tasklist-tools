@@ -59,7 +59,7 @@ describe("Tasklist status action menu", () => {
         process.platform === "darwin" ? "⌃⌥1" : "Ctrl+Alt+1",
       );
       expect(lumine.contextMenu.templateForElement(tile)[1].keyBindingLabel).toBe(
-        process.platform === "darwin" ? "⌥⏎" : "Alt+Enter",
+        process.platform === "darwin" ? "⌘K T" : "Ctrl+K T",
       );
     } finally {
       keys.dispose();
@@ -68,7 +68,7 @@ describe("Tasklist status action menu", () => {
   it("shows the owned task shortcuts, including nested states, only for a tasklist", async () => {
     const menu = lumine.contextMenu.templateForElement(tile);
     const alt = process.platform === "darwin" ? "⌥" : "Alt+";
-    expect(menu[1].keyBindingLabel).toBe(`${alt}${process.platform === "darwin" ? "⏎" : "Enter"}`);
+    expect(menu[1].keyBindingLabel).toBe(process.platform === "darwin" ? "⌘K T" : "Ctrl+K T");
     expect(
       menu.find((item) => item.label === "Set as").submenu.map((item) => item.keyBindingLabel),
     ).toEqual([
