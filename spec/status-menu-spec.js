@@ -9,6 +9,7 @@ describe("Tasklist status action menu", () => {
     editor = await lumine.workspace.open();
     editor.setGrammar(lumine.grammars.grammarForScopeName("text.tasklist"));
     editor.setText("☐ first\n☐ second");
+    editor.getElement().focus();
     tile = lumine.workspace.getElement().querySelector(".tasklist-status");
   });
   afterEach(async () => {
@@ -40,6 +41,7 @@ describe("Tasklist status action menu", () => {
     other.setGrammar(editor.getGrammar());
     other.setText("☐ remote");
     extra.getEditorContainer().getActivePane().activateItem(other, { activatePane: true });
+    other.getElement().focus();
     const remoteTile = extra.getElement().querySelector(".tasklist-status");
     await lumine.commands.dispatch(remoteTile, "tasklist-tools:toggle-tick");
     expect(other.getText()).toBe("✔ remote");
@@ -98,12 +100,16 @@ describe("Tasklist status action menu", () => {
     }
     await lumine.packages.activatePackage("language-text");
     editor.setGrammar(lumine.grammars.grammarForScopeName("text.plain"));
-    expect(lumine.contextMenu.templateForElement(tile)[1].keyBindingLabel).toBe("");
+    await editor.getElement().getNextUpdatePromise();
+    expect(lumine.contextMenu.templateForElement(tile)[1].keyBindingLabel).toBeUndefined();
+    const preview = document.createElement("div");
+    preview.tabIndex = -1;
     await lumine.workspace.open({
       getTitle: () => "Preview",
-      element: document.createElement("div"),
+      element: preview,
     });
-    expect(lumine.contextMenu.templateForElement(tile)[1].keyBindingLabel).toBe("");
+    preview.focus();
+    expect(lumine.contextMenu.templateForElement(tile)[1].keyBindingLabel).toBeUndefined();
   });
   it("disposes the menu and mouse listeners", async () => {
     await lumine.packages.deactivatePackage("tasklist-tools");
