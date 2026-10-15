@@ -89,7 +89,7 @@
       "label": "Edit",
       "submenu": [
         {
-          "label": "Toggle Tasks",
+          "label": "Cycle Task State",
           "command": "tasklist-tools:toggle-tick",
           "group": "annotations",
           "order": 20
@@ -103,38 +103,38 @@
         "type": "separator"
       },
       {
-        "label": "Toggle Tasks",
+        "label": "Cycle Task State",
         "command": "tasklist-tools:toggle-tick",
         "afterGroupContaining": ["core:select-all", "core:paste", "core:redo", "core:undo"],
         "group": "annotations",
         "order": 20
       },
       {
-        "label": "Set Tasks as High",
+        "label": "Mark as High Priority",
         "command": "tasklist-tools:set-as-high",
         "group": "annotations",
         "order": 30
       },
       {
-        "label": "Set Tasks as Todo",
+        "label": "Mark as To Do",
         "command": "tasklist-tools:set-as-todo",
         "group": "annotations",
         "order": 40
       },
       {
-        "label": "Set Tasks as Done",
+        "label": "Mark as Done",
         "command": "tasklist-tools:set-as-done",
         "group": "annotations",
         "order": 50
       },
       {
-        "label": "Set Tasks as Fail",
+        "label": "Mark as Failed",
         "command": "tasklist-tools:set-as-fail",
         "group": "annotations",
         "order": 60
       },
       {
-        "label": "Set Tasks as Info",
+        "label": "Mark as Note",
         "command": "tasklist-tools:set-as-info",
         "group": "annotations",
         "order": 70

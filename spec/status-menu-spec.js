@@ -22,7 +22,7 @@ describe("Tasklist status action menu", () => {
     const [tooltip] = lumine.tooltips.findTooltips(tile);
     expect(tooltip.getTitle()).toBe("Task counts. Click to go to the next task.");
     expect(menu.find((item) => item.label === "Go to Next").submenu).toHaveSize(5);
-    expect(menu.find((item) => item.label === "Set as").submenu).toHaveSize(5);
+    expect(menu.find((item) => item.label === "Set Task State").submenu).toHaveSize(5);
     const dispatch = spyOn(lumine.commands, "dispatch");
     tile.dispatchEvent(new MouseEvent("mouseup", { button: 2, bubbles: true }));
     lumine.contextMenu.templateForElement(tile);
@@ -70,7 +70,9 @@ describe("Tasklist status action menu", () => {
     const alt = process.platform === "darwin" ? "⌥" : "Alt+";
     expect(menu[1].keyBindingLabel).toBe(process.platform === "darwin" ? "⌘K T" : "Ctrl+K T");
     expect(
-      menu.find((item) => item.label === "Set as").submenu.map((item) => item.keyBindingLabel),
+      menu
+        .find((item) => item.label === "Set Task State")
+        .submenu.map((item) => item.keyBindingLabel),
     ).toEqual([
       `${alt}/`,
       `${alt}*`,
@@ -82,7 +84,7 @@ describe("Tasklist status action menu", () => {
     try {
       expect(popup.rootList.items[1].keystrokeElement.textContent).toBe(menu[1].keyBindingLabel);
       const submenu = popup.openSubmenu(
-        popup.rootList.items.find((item) => item.template.label === "Set as"),
+        popup.rootList.items.find((item) => item.template.label === "Set Task State"),
       );
       expect(submenu.items.map((item) => item.keystrokeElement.textContent)).toEqual([
         `${alt}/`,
