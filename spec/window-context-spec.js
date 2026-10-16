@@ -33,9 +33,12 @@ describe("tasklist status window context", () => {
     expect(remote.querySelector("#todo-counter").count).toBe(1);
     const dispatch = spyOn(lumine.commands, "dispatch");
     local.onmouseup({ which: 1 });
-    expect(dispatch).toHaveBeenCalledOnceWith(local, "tasklist-tools:go-to-next-tick");
+    expect(dispatch).toHaveBeenCalledOnceWith(
+      editor.getElement(),
+      "tasklist-tools:go-to-next-tick",
+    );
     dispatch.calls.reset();
     remote.onmouseup({ which: 2 });
-    expect(dispatch).toHaveBeenCalledOnceWith(remote, "tasklist-tools:toggle-tick");
+    expect(dispatch).toHaveBeenCalledOnceWith(other.getElement(), "tasklist-tools:toggle-tick");
   });
 });

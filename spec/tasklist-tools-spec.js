@@ -42,28 +42,27 @@ describe("tasklist-tools", () => {
       }
     });
 
-    // The application menu dispatches at whatever holds focus, so the commands
-    // have to be reachable from the workspace — and, being reachable
-    // everywhere, they have to refuse anywhere they do not belong.
-    it("registers them on the workspace, not on the editor element", () => {
+    it("keeps task commands unavailable on the workspace", () => {
       const commands = lumine.commands
         .findCommands({ target: workspaceElement })
         .map((command) => command.name);
 
-      expect(commands).toContain("tasklist-tools:toggle-tick");
+      expect(commands).not.toContain("tasklist-tools:toggle-tick");
     });
 
-    it("declines and says why when the buffer is not a tasklist", async () => {
+    it("keeps task commands unavailable on a different grammar", async () => {
       const other = await lumine.workspace.open("notes.txt");
       other.setText("plain text\n");
       const warnings = [];
       lumine.notifications.onDidAddNotification((notification) => warnings.push(notification));
 
-      lumine.commands.dispatch(workspaceElement, "tasklist-tools:set-as-done");
+      lumine.commands.dispatch(other.getElement(), "tasklist-tools:set-as-done");
 
       expect(other.getText()).toBe("plain text\n");
-      expect(warnings.length).toBe(1);
-      expect(warnings[0].getType()).toBe("warning");
+      expect(warnings.length).toBe(0);
+      expect(lumine.commands.canDispatch(other.getElement(), "tasklist-tools:set-as-done")).toBe(
+        false,
+      );
     });
   });
 

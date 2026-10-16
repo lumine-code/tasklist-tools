@@ -31,8 +31,8 @@ describe("Tasklist status action menu", () => {
     tile.dispatchEvent(new MouseEvent("mouseup", { button: 0 }));
     tile.dispatchEvent(new MouseEvent("mouseup", { button: 1 }));
     expect(dispatch.calls.allArgs()).toEqual([
-      [tile, "tasklist-tools:go-to-next-tick"],
-      [tile, "tasklist-tools:toggle-tick"],
+      [editor.getElement(), "tasklist-tools:go-to-next-tick"],
+      [editor.getElement(), "tasklist-tools:toggle-tick"],
     ]);
   });
   it("acts on the tasklist of the window owning the menu", async () => {
@@ -43,7 +43,7 @@ describe("Tasklist status action menu", () => {
     extra.getEditorContainer().getActivePane().activateItem(other, { activatePane: true });
     other.getElement().focus();
     const remoteTile = extra.getElement().querySelector(".tasklist-status");
-    await lumine.commands.dispatch(remoteTile, "tasklist-tools:toggle-tick");
+    remoteTile.dispatchEvent(new MouseEvent("mouseup", { button: 1 }));
     expect(other.getText()).toBe("✔ remote");
     expect(editor.getText()).toBe("☐ first\n☐ second");
     const keys = lumine.keymaps.add(

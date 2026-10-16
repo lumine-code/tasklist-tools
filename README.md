@@ -21,7 +21,7 @@ To install `tasklist-tools` search for it in the Install pane of the Lumine sett
 
 ## Commands
 
-Commands available in `lumine-workspace`. Each acts on the editor that dispatched it, falling back to the active editor for a menu or palette request, and declines with a notification when its grammar is not a tasklist:
+Commands available in `lumine-text-editor[data-grammar~="tasklist"]:not([mini]):not([readonly])`:
 
 - `tasklist-tools:toggle-tick`: add or toggle tick of selected tasks by `▷` `☐` `•` -> `✔` -> `✘` -> `☐` cycle,
 - `tasklist-tools:set-as-high`: add or change tick of selected tasks as `▷`,
@@ -29,15 +29,18 @@ Commands available in `lumine-workspace`. Each acts on the editor that dispatche
 - `tasklist-tools:set-as-done`: add or change tick of selected tasks as `✔`,
 - `tasklist-tools:set-as-fail`: add or change tick of selected tasks as `✘`,
 - `tasklist-tools:set-as-info`: add or change tick of selected tasks as `•`,
+- `tasklist-tools:translate-markdown`: translate markdown-style ticks and bullets to tasklist-style,
+- `tasklist-tools:move-items-to-next-header`: move selected items to next header,
+- `tasklist-tools:move-items-to-last-header`: move selected items to last header.
+
+Commands available in `lumine-text-editor[data-grammar~="tasklist"]:not([mini])`:
+
 - `tasklist-tools:go-to-next-tick`: navigate to next tick of any type with wraparound,
 - `tasklist-tools:go-to-next-high`: navigate to next `▷` tick with wraparound,
 - `tasklist-tools:go-to-next-todo`: navigate to next `☐` tick with wraparound,
 - `tasklist-tools:go-to-next-done`: navigate to next `✔` tick with wraparound,
 - `tasklist-tools:go-to-next-fail`: navigate to next `✘` tick with wraparound,
 - `tasklist-tools:go-to-next-info`: navigate to next `•` tick with wraparound,
-- `tasklist-tools:translate-markdown`: translate markdown-style ticks and bullets to tasklist-style,
-- `tasklist-tools:move-items-to-next-header`: move selected items to next header,
-- `tasklist-tools:move-items-to-last-header`: move selected items to last header,
 - `tasklist-tools:move-to-next-header`: set cursor position equal to next header,
 - `tasklist-tools:move-to-previous-header`: set cursor position equal to previous header,
 - `tasklist-tools:move-to-last-header`: set cursor position equal to last header.
@@ -57,7 +60,7 @@ The status-bar counter can be restyled from your `styles.css`, e.g.:
 }
 ```
 
-Left-click the status counter to go to the next task and middle-click to toggle its state. Right-click for both actions and menus for navigating by type or setting a state. Each action uses the tasklist in that counter’s window.
+Left-click the status counter to go to the next task and middle-click to toggle its state in that counter's window. Right-click for both actions and menus for navigating by type or setting a state; these commands use the tasklist focused before opening the menu.
 
 ## Services
 

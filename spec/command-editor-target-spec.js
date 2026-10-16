@@ -43,16 +43,23 @@ describe("Task commands in split editors", () => {
 
   it("declines a plain editor instead of modifying the active tasklist", async () => {
     target.setGrammar(lumine.grammars.nullGrammar);
+    target.getElement().getComponent().updateSync();
     const warning = spyOn(lumine.notifications, "addWarning");
     await lumine.commands.dispatch(target.getElement(), "tasklist-tools:set-as-done");
     expect(target.getText()).toBe("☐ first\n☐ second");
     expect(other.getText()).toBe("☐ other");
-    expect(warning).toHaveBeenCalledWith("Not a tasklist file");
+    expect(lumine.commands.canDispatch(target.getElement(), "tasklist-tools:set-as-done")).toBe(
+      false,
+    );
+    expect(warning).not.toHaveBeenCalled();
   });
 
-  it("uses the active tasklist for a workspace menu dispatch", async () => {
+  it("does not redirect workspace dispatch into the active tasklist", async () => {
     await lumine.commands.dispatch(lumine.workspace.getElement(), "tasklist-tools:set-as-done");
     expect(target.getText()).toBe("☐ first\n☐ second");
-    expect(other.getText()).toBe("✔ other");
+    expect(
+      lumine.commands.canDispatch(lumine.workspace.getElement(), "tasklist-tools:set-as-done"),
+    ).toBe(false);
+    expect(other.getText()).toBe("☐ other");
   });
 });
