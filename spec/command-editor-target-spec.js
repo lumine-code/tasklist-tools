@@ -62,4 +62,18 @@ describe("Task commands in split editors", () => {
     ).toBe(false);
     expect(other.getText()).toBe("☐ other");
   });
+  it("keeps navigation available on readonly tasklists without claiming editing shortcuts", () => {
+    const element = target.getElement();
+    expect(
+      lumine.keymaps.findKeyBindings({ target: element, command: "tasklist-tools:toggle-tick" })
+        .length,
+    ).toBeGreaterThan(0);
+    element.setAttribute("readonly", "");
+    expect(lumine.commands.canDispatch(element, "tasklist-tools:go-to-next-tick")).toBe(true);
+    expect(lumine.commands.canDispatch(element, "tasklist-tools:toggle-tick")).toBe(false);
+    expect(
+      lumine.keymaps.findKeyBindings({ target: element, command: "tasklist-tools:toggle-tick" })
+        .length,
+    ).toBe(0);
+  });
 });

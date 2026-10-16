@@ -1,5 +1,5 @@
 {
-  "lumine-text-editor[data-grammar~=\"tasklist\"]:not([mini])": {
+  "lumine-text-editor[data-grammar~=\"tasklist\"]:not([mini]):not([readonly])": {
     "cmdorctrl-k t": "tasklist-tools:toggle-tick",
     "alt-/": "tasklist-tools:set-as-high",
     "alt-*": "tasklist-tools:set-as-todo",
