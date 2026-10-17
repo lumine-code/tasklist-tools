@@ -15,6 +15,8 @@ Requires a grammar package such as [language-tasklist](https://github.com/lumine
 
 ![Mark tasks as complete and track the remaining work.](.github/demo.png)
 
+![Keep a neutral status when no marked tasks remain.](.github/demo-empty.png)
+
 ## Installation
 
 To install `tasklist-tools` search for it in the Install pane of the Lumine settings, or run the command `lumine --install lumine-code/tasklist-tools`.
