@@ -2,12 +2,12 @@
   "title": "tasklist-tools",
   "description": "Mark tasks as complete and track the remaining work.",
   "recordedOn": "2026-10-16",
-  "sourceRevision": "8952fba219dfe55bb136e46ebb2e410f783a6e8f",
-  "themeSourceRevision": "828c35ac1816466699effa6f7cf7eedccc930ff9",
+  "sourceRevision": "847b0ad9499070cedacf0a526159b99654fc492a",
+  "themeSourceRevision": "3fe3ae9ebb8ae365e54ca9e36b930783f4798513",
   "mode": "normal",
   "fontSettings": "default",
   "scenario": "demo.js",
-  "recipeHash": "98d5123d2a5fc0b312892d9f8586bfaf8e24e459510703f44d7851372adffd7f",
+  "recipeHash": "606288cb4a7cfbb368805e92dc888c263a35b081dc88d3fd0d0f3b0cce0599ca",
   "environment": {
     "platform": "win32",
     "arch": "x64",
@@ -24,19 +24,19 @@
   "privacy": { "version": 1, "location": "neutral", "textChecked": true },
   "sources": {
     "editor": {
-      "revision": "f8d8badf72a1a2e010c2c5d76306bade6c5fefd0",
-      "dirty": false,
-      "workingTreeHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      "revision": "e7ad1dd5156e8d343ea268c8a22347dd31e91df6",
+      "dirty": true,
+      "workingTreeHash": "aa65c5235bbf2323156ba808240561d13a0f6bb098250f9df132031b72c4e1b8"
     },
     "package": {
-      "revision": "8952fba219dfe55bb136e46ebb2e410f783a6e8f",
-      "dirty": false,
-      "workingTreeHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      "revision": "847b0ad9499070cedacf0a526159b99654fc492a",
+      "dirty": true,
+      "workingTreeHash": "1f39922af63e9967f1e344b2b975bc1b1eeda748bc9ba02c69947c2bb0531992"
     },
     "tasklist-tools": {
-      "revision": "8952fba219dfe55bb136e46ebb2e410f783a6e8f",
-      "dirty": false,
-      "workingTreeHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      "revision": "847b0ad9499070cedacf0a526159b99654fc492a",
+      "dirty": true,
+      "workingTreeHash": "1f39922af63e9967f1e344b2b975bc1b1eeda748bc9ba02c69947c2bb0531992"
     },
     "language-tasklist": {
       "revision": "fa1aa658e263f13a403e7605e752bfaa249c911c",
@@ -44,7 +44,7 @@
       "workingTreeHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
     },
     "one-theme": {
-      "revision": "828c35ac1816466699effa6f7cf7eedccc930ff9",
+      "revision": "3fe3ae9ebb8ae365e54ca9e36b930783f4798513",
       "dirty": false,
       "workingTreeHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
     }
@@ -61,7 +61,7 @@
       "label": "Mark tasks as complete and track the remaining work.",
       "width": 1100,
       "height": 340,
-      "sha256": "b8bc4d72cd93910aa5e9ed3387d105f355c70a69f15efa85639e5e7e2fcc80cb"
+      "sha256": "bd44a40947e2cbd87ef2efc958ed61d5a28873ad7231da536a0ee1c9bad62efa"
     }
   ]
 }

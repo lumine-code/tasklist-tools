@@ -27,7 +27,34 @@ module.exports = {
       },
       ready(context) {
         const { state } = context;
-        return Boolean(state.editor.getText().includes("✔"));
+        const status = document.querySelector(".tasklist-status");
+        return Boolean(
+          state.editor.getText().includes("✔") &&
+          status &&
+          status.querySelector("#done-counter:not([hidden])") &&
+          status.querySelector("#fail-counter[hidden]") &&
+          status.querySelector("#info-counter[hidden]"),
+        );
+      },
+    },
+    {
+      id: "empty-tasklist",
+      file: "demo-empty.png",
+      caption: "Keep a neutral status when no marked tasks remain.",
+      async run(context) {
+        const { lumine, state, open } = context;
+        state.emptyEditor = await open("usage/empty.tasklist");
+        lumine.grammars.assignLanguageMode(state.emptyEditor.getBuffer(), "text.tasklist");
+        state.emptyEditor.setCursorBufferPosition([0, 0]);
+      },
+      ready(context) {
+        const { state } = context;
+        const status = document.querySelector(".tasklist-status");
+        return Boolean(
+          state.emptyEditor?.getGrammar().scopeName === "text.tasklist" &&
+          status?.querySelector(".tasklist-status-empty:not([hidden])") &&
+          !status.querySelector("[id$='-counter']:not([hidden])"),
+        );
       },
     },
   ],

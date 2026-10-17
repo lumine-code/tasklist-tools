@@ -11,6 +11,7 @@ describe("Tasklist status action menu", () => {
     editor.setText("☐ first\n☐ second");
     editor.getElement().focus();
     tile = lumine.workspace.getElement().querySelector(".tasklist-status");
+    await conditionPromise(() => tile.querySelector("#todo-counter").count === 2);
   });
   afterEach(async () => {
     await lumine.workspace.discardEditorWindows();

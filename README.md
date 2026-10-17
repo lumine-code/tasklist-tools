@@ -9,7 +9,7 @@ Requires a grammar package such as [language-tasklist](https://github.com/lumine
 - **Task toggling**: cycle through task states with keyboard or middle-click.
 - **Quick state commands**: set tasks directly to high, todo, done, fail, or info.
 - **Header navigation**: jump between headers or move items to headers.
-- **Status bar counter**: shows task counts by type with click-to-navigate and follows changes to the active editor's grammar.
+- **Status bar counter**: shows nonzero task counts by type with click-to-navigate, a neutral checklist when no marked lines remain, and follows changes to the active editor's grammar.
 - **Markdown translation**: convert markdown checkboxes to tasklist format.
 - **Navigation panel**: outline support via [navigation-panel](https://github.com/lumine-code/navigation-panel).
 
