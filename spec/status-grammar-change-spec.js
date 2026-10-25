@@ -29,9 +29,12 @@ describe("Task status follows the active editor grammar", () => {
     editor = other = status = null;
   });
 
-  it("hides when the current tasklist changes to plain text", () => {
+  it("hides without reading the document when the current tasklist changes to None", () => {
+    const read = spyOn(editor, "getText").and.callThrough();
     editor.setGrammar(lumine.grammars.nullGrammar);
+    editor.buffer.emitDidStopChangingEvent();
     expect(status.element.style.display).toBe("none");
+    expect(read).not.toHaveBeenCalled();
   });
 
   it("shows the current plain editor when it becomes a tasklist", async () => {
