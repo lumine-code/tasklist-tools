@@ -47,6 +47,10 @@ Commands available in `lumine-text-editor[data-grammar~="tasklist"]:not([mini])`
 - `tasklist-tools:move-to-previous-header`: set cursor position equal to previous header,
 - `tasklist-tools:move-to-last-header`: set cursor position equal to last header.
 
+## Usage
+
+Large-document commands prepare changes from immutable source chunks, keep the editor responsive and publish one undo step. Changing text or selection, switching grammar or deactivating the package cancels unfinished preparation. Task counters update from the affected rows after a single edit and use a cancellable chunked recount for other changes; counting never creates a document string or an array of every task.
+
 ## Customization
 
 The status-bar counter can be restyled from your `styles.css`, e.g.:
