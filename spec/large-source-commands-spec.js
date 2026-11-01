@@ -15,6 +15,54 @@ describe("source-backed tasklist commands", () => {
     await lumine.packages.deactivatePackage("tasklist-tools");
   });
 
+  it("finishes tracked source edits after its own cancellation observers run", async () => {
+    const original = prefix + "- [ ] one\n* [x] two\n";
+    editor.setText(original);
+    let calls = 0;
+    const layer = buffer.addMarkerLayer({
+      trackRanges(entries) {
+        calls++;
+        return entries.map(({ id }) => ({ id, range: buffer.getRange() }));
+      },
+    });
+    layer.markRange(buffer.getRange(), { invalidate: "never" });
+    const errors = spyOn(lumine.notifications, "addError");
+    buffer.clearUndoStack();
+    await main.translate();
+    expect(buffer.getTextSnapshot().slice(prefix.length)).toBe("☐ one\n✔ two\n");
+    expect(calls).toBe(2);
+    expect(errors).not.toHaveBeenCalled();
+    editor.undo();
+    expect(editor.getText()).toBe(original);
+    expect(buffer.undo()).toBe(false);
+
+    editor.setText(prefix + "    one\n    two\n");
+    editor.setSelectedBufferRanges([
+      [
+        [1, 5],
+        [1, 5],
+      ],
+      [
+        [2, 2],
+        [2, 2],
+      ],
+    ]);
+    buffer.clearUndoStack();
+    await main.task("✔");
+    expect(buffer.getTextSnapshot().slice(prefix.length)).toBe("    ✔ one\n    ✔ two\n");
+    expect(editor.getCursorBufferPositions()).toEqual([
+      [1, 7],
+      [2, 2],
+    ]);
+    editor.undo();
+    expect(buffer.getTextSnapshot().slice(prefix.length)).toBe("    one\n    two\n");
+    expect(editor.getCursorBufferPositions()).toEqual([
+      [1, 5],
+      [2, 2],
+    ]);
+    expect(buffer.undo()).toBe(false);
+  });
+
   it("changes selected task marks in one atomic edit and preserves exact undo", async () => {
     editor.setText(prefix + "☐ one\r\n✔ two\nplain\n");
     editor.setSelectedBufferRange(
